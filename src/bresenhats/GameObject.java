@@ -36,6 +36,14 @@ public abstract class GameObject {
   public int getWidth() {
     return width;
   }
+  
+  protected void setHeight(int height) {
+    this.height = height;
+  }
+  
+  protected void setWidth(int width) {
+    this.width = width;
+  }
 
   public int getHeight() {
     return height;

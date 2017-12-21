@@ -18,8 +18,8 @@ public class Main extends Application {
   
   /** Duration in seconds of each frame */
   private static final double FRAME_SPEED = 0.1;
-  private static final int WIDTH = 1080;
-  private static final int HEIGHT = 720;
+  public static final int WIDTH = 1080;
+  public static final int HEIGHT = 720;
   
   private static ArrayList<GameObject> gameObjects;
   
@@ -36,7 +36,8 @@ public class Main extends Application {
   
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    Player player = new Player(50, 50, 50, 50, "/Users/shimismith/Desktop/test.png");
+//    Player player = new Player(50, 77, 161, "person.png");
+    Player player = new Player(50, "person.png");
     gameObjects.add(player);
   }
   
@@ -81,7 +82,7 @@ public class Main extends Application {
   
   /** Draws all the objects in the game */
   private static void drawWorld(GraphicsContext gc) {
-    // TODO check bounds, collisions, etc
+    // TODO only draw things that are on the screen
     for (GameObject gameObject : Main.gameObjects) {
       gameObject.draw(gc);
     }
