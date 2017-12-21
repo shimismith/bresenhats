@@ -1,14 +1,16 @@
 package bresenhats;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /** This class represents any object in the game **/
-public class GameObject {
+public abstract class GameObject {
 
   private int x;
   private int y;
   private int width;
   private int height;
   
-  public GameObject(int x, int y, int width, int height) {
+  public GameObject(int x, int y, int width, int height){
     this.x = x;
     this.y = y;
     this.width = width;
@@ -38,4 +40,6 @@ public class GameObject {
   public int getHeight() {
     return height;
   }
+  
+  public abstract void draw(GraphicsContext gc);
 }

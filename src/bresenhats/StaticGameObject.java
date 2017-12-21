@@ -1,7 +1,7 @@
 package bresenhats;
 
 /** This is a game object that does not move **/
-public class StaticGameObject extends GameObject{
+public abstract class StaticGameObject extends GameObject{
   
   public StaticGameObject(int x, int y, int width, int height) {
     super(x, y, width, height);

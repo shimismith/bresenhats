@@ -1,6 +1,6 @@
 package bresenhats;
 
-public class MovableGameObject extends GameObject{
+public abstract class MovableGameObject extends GameObject{
   public MovableGameObject(int x, int y, int width, int height) {
     super(x, y, width, height);
   }
