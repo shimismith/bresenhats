@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -17,18 +18,20 @@ import javafx.util.Duration;
 public class Main extends Application {
   
   /** Duration in seconds of each frame */
-  private static final double FRAME_SPEED = 0.1;
+  private static final double FRAME_SPEED = 0.016; // approx 60 FPS
   public static final int WIDTH = 1080;
   public static final int HEIGHT = 720;
   
   private static ArrayList<GameObject> gameObjects;
   
+  /** Manages the key controls for the player */
+  private static Controller controller;
+  
   public static void main(String[] args) {
     try {
       initGame();
-      throw  new IOException();
     } catch (IOException e) {
-      // TODO exit - I forget how to do this and don't have wifi
+      Platform.exit();
     }
     
     Application.launch(args);
@@ -36,8 +39,8 @@ public class Main extends Application {
   
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-//    Player player = new Player(50, 77, 161, "person.png");
     Player player = new Player(50, "person.png");
+    controller = new Controller(player);
     gameObjects.add(player);
   }
   
@@ -50,8 +53,10 @@ public class Main extends Application {
     
     Group root = new Group();
     Scene scene = new Scene(root);
+    scene.setOnKeyPressed(controller::handle);
+    
     primaryStage.setScene(scene);
-    Canvas canvas = new Canvas(this.WIDTH, this.HEIGHT);  // for drawing stuff
+    Canvas canvas = new Canvas(Main.WIDTH, Main.HEIGHT);  // for drawing stuff
     root.getChildren().add(canvas);
     
     GraphicsContext gc = canvas.getGraphicsContext2D();
