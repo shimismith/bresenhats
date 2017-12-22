@@ -2,18 +2,15 @@ package bresenhats;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javafx.animation.KeyFrame;
+import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Main extends Application {
   
@@ -53,7 +50,8 @@ public class Main extends Application {
     
     Group root = new Group();
     Scene scene = new Scene(root);
-    scene.setOnKeyPressed(controller::handle);
+    scene.setOnKeyPressed(controller::handleKeyPress);
+    scene.setOnKeyReleased(controller::handleKeyRelease);
     
     primaryStage.setScene(scene);
     Canvas canvas = new Canvas(Main.WIDTH, Main.HEIGHT);  // for drawing stuff
@@ -62,24 +60,34 @@ public class Main extends Application {
     GraphicsContext gc = canvas.getGraphicsContext2D();
 
     drawWorld(gc);
-
-    Timeline gameLoop = new Timeline();
-    gameLoop.setCycleCount(Timeline.INDEFINITE);
-
-    // this is what is done each frame
-    KeyFrame kf = new KeyFrame(Duration.seconds(Main.FRAME_SPEED), new EventHandler<ActionEvent>() {
-      public void handle(ActionEvent ae) {
+    
+    new CustomAnimationTimer() {
+      public void handle(long currentNanoTime) {
+        double t = (currentNanoTime - this.getPrevNanoTime()) / 1000000000.0;
+        this.setPrevNanoTime(currentNanoTime);
         
-        // TODO loop through everything - update and draw
-
-        // Clear the canvas
+        // background image clears canvas
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        // I just add 1 to the time instead of having stupidly large velocities
+        ((Player) gameObjects.get(0)).move(t+1);
         drawWorld(gc);
       }
-    });
+    }.start();
+        
+//    new AnimationTimer()
+//    {
+//        public void handle(long currentNanoTime)
+//        {
+//            double t = (currentNanoTime - startNanoTime) / 1000000000.0;
+//            startNanoTime = currentNanoTime;
+// 
+//            // background image clears canvas
+//            gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+//            ((Player) gameObjects.get(0)).move(t);
+//            drawWorld(gc);
+//        }
+//    }.start();
 
-    gameLoop.getKeyFrames().add(kf);
-    gameLoop.play();
     
     primaryStage.show();
 

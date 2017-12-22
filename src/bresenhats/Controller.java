@@ -12,15 +12,21 @@ public class Controller {
   }
 
   /** Handles key inputs */
-  public void handle(KeyEvent e) {
+  public void handleKeyPress(KeyEvent e) {
     switch (e.getCode()) {
       case LEFT:
-        player.move(player.getX() - 10, player.getY());
+        this.player.setVelX(-10);
         break;
       case RIGHT:
-        player.move(player.getX() + 10, player.getY());
+        this.player.setVelX(10);
         break;
     }
+  }
 
+  /** Handles key inputs */
+  public void handleKeyRelease(KeyEvent e) {
+    switch (e.getCode()) {
+      case LEFT:   case RIGHT: this.player.setVelX(0);
+    }
   }
 }
