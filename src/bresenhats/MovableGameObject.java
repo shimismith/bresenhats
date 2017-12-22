@@ -8,12 +8,8 @@ public abstract class MovableGameObject extends GameObject{
   public MovableGameObject(int x, int y, int width, int height) {
     super(x, y, width, height);
   }
-
-  public void move(int x, int y) {
-    this.setX(x);
-    this.setY(y);
-  }
   
+  @Override
   public void move(double time) {
     this.setX((int) (this.getX() + velX * time));
     this.setX((int) (this.getX() + velX * time));

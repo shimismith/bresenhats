@@ -50,4 +50,6 @@ public abstract class GameObject {
   }
   
   public abstract void draw(GraphicsContext gc);
+  
+  public abstract void move(double time);
 }

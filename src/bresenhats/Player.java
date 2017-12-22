@@ -38,12 +38,6 @@ public class Player extends MovableGameObject {
     this.setY(Main.HEIGHT - this.getHeight());
   }
 
-  @Override
-  public void move(int x, int y) {
-    // TODO check collisions and move properly
-    super.move(x, y);
-  }
-
   public double getHealth() {
     return this.health;
   }
