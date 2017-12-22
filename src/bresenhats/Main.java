@@ -74,21 +74,6 @@ public class Main extends Application {
       }
     }.start();
         
-//    new AnimationTimer()
-//    {
-//        public void handle(long currentNanoTime)
-//        {
-//            double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-//            startNanoTime = currentNanoTime;
-// 
-//            // background image clears canvas
-//            gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
-//            ((Player) gameObjects.get(0)).move(t);
-//            drawWorld(gc);
-//        }
-//    }.start();
-
-    
     primaryStage.show();
 
   }
