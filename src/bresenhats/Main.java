@@ -69,7 +69,7 @@ public class Main extends Application {
         // background image clears canvas
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         // I just add 1 to the time instead of having stupidly large velocities
-        ((Player) gameObjects.get(0)).move(t+1);
+        gameObjects.get(0).move(t+1);
         drawWorld(gc);
       }
     }.start();
