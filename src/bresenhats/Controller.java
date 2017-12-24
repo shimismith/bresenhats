@@ -20,6 +20,12 @@ public class Controller {
       case RIGHT:
         this.player.setVelX(10);
         break;
+      case UP:
+        // only can jump when on ground
+        if(this.player.isOnGround()){
+          this.player.setVelY(-20);
+          this.player.setOnGround(false);
+        }
     }
   }
 

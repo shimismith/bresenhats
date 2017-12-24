@@ -2,8 +2,6 @@ package bresenhats;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import javafx.animation.AnimationTimer;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -15,7 +13,6 @@ import javafx.stage.Stage;
 public class Main extends Application {
   
   /** Duration in seconds of each frame */
-  private static final double FRAME_SPEED = 0.016; // approx 60 FPS
   public static final int WIDTH = 1080;
   public static final int HEIGHT = 720;
   
@@ -41,9 +38,6 @@ public class Main extends Application {
     gameObjects.add(player);
   }
   
-  /**
-   * Credits to Paul Gries CSC207 A2 starter code
-   */
   @Override
   public void start(Stage primaryStage) throws Exception {
     primaryStage.setTitle("Many Hats - Beeline V2");

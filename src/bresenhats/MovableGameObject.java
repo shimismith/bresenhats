@@ -11,8 +11,10 @@ public abstract class MovableGameObject extends GameObject{
   
   @Override
   public void move(double time) {
-    this.setX((int) (this.getX() + velX * time));
-    this.setX((int) (this.getX() + velX * time));
+    int newX = (int) (this.getX() + velX * time);
+    if(newX >= 0 && newX + this.getWidth() <= Main.WIDTH) {
+      this.setX(newX);
+    }
   }
   
   public void setVelX(double velX) {
