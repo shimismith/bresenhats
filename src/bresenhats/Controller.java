@@ -22,17 +22,28 @@ public class Controller {
         break;
       case UP:
         // only can jump when on ground
-        if(this.player.isOnGround()){
+        if (this.player.isOnGround()) {
           this.player.setVelY(-20);
           this.player.setOnGround(false);
         }
+        break;
     }
   }
 
   /** Handles key inputs */
   public void handleKeyRelease(KeyEvent e) {
     switch (e.getCode()) {
-      case LEFT:   case RIGHT: this.player.setVelX(0);
+      case LEFT:
+        // if going left - could be going right but left button was being held then released
+        if (this.player.getVelX() < 0) {
+          this.player.setVelX(0);
+        }
+        break;
+      case RIGHT:
+        if (this.player.getVelX() > 0) {
+          this.player.setVelX(0);
+        }
+        break;
     }
   }
 }
