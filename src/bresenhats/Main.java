@@ -33,7 +33,7 @@ public class Main extends Application {
   
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    Player player = new Player(50, "person.png");
+    MovableGameObject player = new Player(50, "person.png"); // TODO
     controller = new Controller(player);
     gameObjects.add(player);
   }

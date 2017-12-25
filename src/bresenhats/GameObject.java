@@ -4,35 +4,38 @@ import javafx.scene.canvas.GraphicsContext;
 
 /** This class represents any object in the game **/
 public abstract class GameObject {
-
-  private int x;
-  private int y;
+  
+  private Vector2D pos;
   private int width;
   private int height;
   
   public GameObject(int x, int y, int width, int height){
-    this.x = x;
-    this.y = y;
+    this.pos = new Vector2D(x, y);
     this.width = width;
     this.height = height;
   }
 
-  public int getX() {
-    return x;
+  public Vector2D getPosition() {
+    return this.pos;
   }
 
-  public void setX(int x) {
-    this.x = x;
+  
+  public double getX() {
+    return this.pos.getX();
   }
-
-  public int getY() {
-    return y;
+  
+  public double getY() {
+    return this.pos.getY();
   }
-
-  public void setY(int y) {
-    this.y = y;
+  
+  public void setX(double x) {
+    this.pos.setX(x);
   }
-
+  
+  public void setY(double y) {
+    this.pos.setY(y);
+  }
+  
   public int getWidth() {
     return width;
   }
