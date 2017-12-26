@@ -1,42 +1,66 @@
 package bresenhats;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 
 public class Player extends MovableGameObject {
 
   private double health;
-  private Image sprite;
+  private AnimatedImage walkingAnimation;
+    
+  private static final double WALKING_DURATION = 0.07;
 
-  public Player(int x, int y, int width, int height, String name) throws IOException {
+  /**
+   * Constructs a new player with a sprite that doesn't change
+   * 
+   * @param x the x coordinate of the player
+   * @param y the y coordinate of the player
+   * @param width the width of the player
+   * @param height the height of the player
+   * @param path to the player's sprite
+   * @throws IOException
+   */
+  public Player(int x, int y, int width, int height, String path) throws IOException {
+    this(x, y, width, height, 1, 1, path);
+  }
+  
+  /**
+   * Constructs a new player with a sprite sheet
+   * 
+   * @param x the x coordinate of the player
+   * @param y the y coordinate of the player
+   * @param width the width of the player
+   * @param height the height of the player
+   * @param col the number of columns in the sprite sheet
+   * @param row the number of rows in the sprite sheet
+   * @param path the path to the sprite sheet
+   * @throws IOException
+   */
+  public Player(int x, int y, int width, int height, int col, int row, String path) throws IOException{
     super(x, y, width, height);
+    this.health = 100;
+    
+    this.walkingAnimation = new AnimatedImage(col, row, path, Player.WALKING_DURATION);
+  }
+  
+  /**
+   * Constructs a new player with the lowest possible y and with width and height of the sprite used
+   * 
+   * @param x
+   * @param col
+   * @param row
+   * @param path
+   * @throws IOException
+   */
+  public Player(int x, int col, int row, String path) throws IOException{
+    super(x, 0, 0, 0);
+    this.walkingAnimation = new AnimatedImage(2, 4, path, Player.WALKING_DURATION);
+    
+    this.setWidth(this.walkingAnimation.getWidth());
+    this.setHeight(this.walkingAnimation.getHeight());
+    this.setY(Main.HEIGHT - this.getHeight());
 
     this.health = 100;
-
-    FileInputStream inputStream = new FileInputStream("res/" + name);
-    this.sprite = new Image(inputStream, this.getWidth(), this.getHeight(), true, true);
-    inputStream.close();
-  }
-
-  /** This constructor doesn't take in y, it puts the player as low as possible */
-  public Player(int x, int width, int height, String name) throws IOException {
-    this(x, Main.HEIGHT - height, width, height, name);
-  }
-
-  /** This constructor just used the width and height of the image */
-  public Player(int x, String name) throws IOException {
-    super(x, 0, 0, 0); // had to put zero cause constructor needs to be called but I still have to
-                       // get the values
-
-    FileInputStream inputStream = new FileInputStream("res/" + name);
-    this.sprite = new Image(inputStream);
-    inputStream.close();
-
-    this.setWidth((int) this.sprite.getWidth());
-    this.setHeight((int) this.sprite.getHeight());
-    this.setY(Main.HEIGHT - this.getHeight());
   }
 
   public double getHealth() {
@@ -47,14 +71,20 @@ public class Player extends MovableGameObject {
     this.health = health;
   }
 
-  public Image getSprite() {
-    return this.sprite;
-  }
-
   @Override
   public void move(double time) {
+   
     if(!this.isOnGround()) {
-      this.getVel().increase(Vector2D.GRAVITY, time);     
+      this.getVel().increase(Vector2D.GRAVITY, time); 
+      
+      // can't walk while jumping
+      this.setWalking(false);
+    }
+    else if(this.getVel().getX() != 0) {  // going left or right
+      this.setWalking(true);
+    }
+    else if(this.getVel().getX() == 0) {  // not moving left or right
+      this.setWalking(false);
     }
     
     super.move(time);
@@ -63,8 +93,12 @@ public class Player extends MovableGameObject {
 
   /** Draws the player */
   @Override
-  public void draw(GraphicsContext gc) {
-    gc.drawImage(this.getSprite(), this.getX(), this.getY());
+  public void draw(GraphicsContext gc, double time) {
+    gc.drawImage(this.walkingAnimation.getFrame(time), this.getX(), this.getY());
+  }
+  
+  public void setWalking(boolean walking) {
+    this.walkingAnimation.setRunning(walking);
   }
 
 

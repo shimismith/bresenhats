@@ -33,7 +33,7 @@ public class Main extends Application {
   
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    MovableGameObject player = new Player(50, "person.png"); // TODO
+    Player player = new Player(50, 2, 4, "res/runningcat.png");
     controller = new Controller(player);
     gameObjects.add(player);
   }
@@ -53,7 +53,7 @@ public class Main extends Application {
     
     GraphicsContext gc = canvas.getGraphicsContext2D();
 
-    drawWorld(gc);
+    drawWorld(gc, 0);
     
     new CustomAnimationTimer() {
       public void handle(long currentNanoTime) {
@@ -63,8 +63,8 @@ public class Main extends Application {
         // background image clears canvas
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         // I just add 1 to the time instead of having stupidly large velocities
-        gameObjects.get(0).move(t+1);
-        drawWorld(gc);
+        gameObjects.get(0).move(t + 1);
+        drawWorld(gc, t);
       }
     }.start();
         
@@ -73,10 +73,10 @@ public class Main extends Application {
   }
   
   /** Draws all the objects in the game */
-  private static void drawWorld(GraphicsContext gc) {
+  private static void drawWorld(GraphicsContext gc, double time) {
     // TODO only draw things that are on the screen
     for (GameObject gameObject : Main.gameObjects) {
-      gameObject.draw(gc);
+      gameObject.draw(gc, time);
     }
   }
  
