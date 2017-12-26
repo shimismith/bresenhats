@@ -24,6 +24,9 @@ public class AnimatedImage {
   /** If the animation is running */
   private boolean running;
   
+  /** The frame displayed when the animation is not running */
+  private Image restingFrame;
+  
   /**
    * Creates the AnimatedImage from a sprite sheet
    * 
@@ -48,23 +51,25 @@ public class AnimatedImage {
     }
     
     this.duration = duration;
+    this.restingFrame = this.frames[0];
   }
   
   public Image getFrame(double time) {
     
     if(!this.isRunning()) {
-      return this.frames[this.currFrame];
+      return this.restingFrame;
     }
     
-    this.prevTime += time;
-       
+    this.prevTime += time;  // update time
+    
+    // update currFrame
     if(this.prevTime >= this.duration) {
       // next frame
       currFrame = currFrame == this.frames.length - 1 ? 0 : currFrame + 1;
       this.prevTime = 0;
     }
 
-    return this.frames[currFrame];
+    return this.frames[this.currFrame];
   }
   
   public int getWidth() {
