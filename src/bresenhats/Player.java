@@ -1,29 +1,25 @@
 package bresenhats;
 
 import java.io.IOException;
+import java.util.Arrays;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public class Player extends MovableGameObject {
 
   private double health;
-  private AnimatedImage walkingAnimation;
-    
+
+  /** Walking animation for going left */
+  private AnimatedImage walkingAnimationL;
+
+  /** Walking animation for going right */
+  private AnimatedImage walkingAnimationR;
+  
+  private boolean walkingLeft = false;
+  private boolean walkingRight = false;
+
   private static final double WALKING_DURATION = 0.07;
 
-  /**
-   * Constructs a new player with a sprite that doesn't change
-   * 
-   * @param x the x coordinate of the player
-   * @param y the y coordinate of the player
-   * @param width the width of the player
-   * @param height the height of the player
-   * @param path to the player's sprite
-   * @throws IOException
-   */
-  public Player(int x, int y, int width, int height, String path) throws IOException {
-    this(x, y, width, height, 1, 1, path);
-  }
-  
   /**
    * Constructs a new player with a sprite sheet
    * 
@@ -33,31 +29,44 @@ public class Player extends MovableGameObject {
    * @param height the height of the player
    * @param col the number of columns in the sprite sheet
    * @param row the number of rows in the sprite sheet
-   * @param path the path to the sprite sheet
+   * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int y, int width, int height, int col, int row, String path) throws IOException{
+  public Player(int x, int y, int width, int height, int col, int row, String spriteSheet) throws IOException {
     super(x, y, width, height);
-    this.health = 100;
     
-    this.walkingAnimation = new AnimatedImage(col, row, path, Player.WALKING_DURATION);
+
+    Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
+
+    int middle = animation.length / 2;
+
+    this.walkingAnimationL = new AnimatedImage(Arrays.copyOfRange(animation, 0, middle), Player.WALKING_DURATION);
+    this.walkingAnimationR = new AnimatedImage(Arrays.copyOfRange(animation, middle, animation.length), Player.WALKING_DURATION);
+    
+    this.health = 100;
   }
-  
+
   /**
    * Constructs a new player with the lowest possible y and with width and height of the sprite used
    * 
-   * @param x
-   * @param col
-   * @param row
-   * @param path
+   * @param x the x coordinate of the player
+   * @param col the number of columns in the sprite sheet
+   * @param row the number of rows in the sprite sheet
+   * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int col, int row, String path) throws IOException{
+  public Player(int x, int col, int row, String spriteSheet) throws IOException {
     super(x, 0, 0, 0);
-    this.walkingAnimation = new AnimatedImage(2, 4, path, Player.WALKING_DURATION);
+
+    Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
+
+    int middle = animation.length / 2;
+
+    this.walkingAnimationL = new AnimatedImage(Arrays.copyOfRange(animation, 0, middle), Player.WALKING_DURATION);
+    this.walkingAnimationR = new AnimatedImage(Arrays.copyOfRange(animation, middle, animation.length), Player.WALKING_DURATION);
     
-    this.setWidth(this.walkingAnimation.getWidth());
-    this.setHeight(this.walkingAnimation.getHeight());
+    this.setWidth(this.walkingAnimationL.getWidth());
+    this.setHeight(this.walkingAnimationL.getHeight());
     this.setY(Main.HEIGHT - this.getHeight());
 
     this.health = 100;
@@ -73,34 +82,35 @@ public class Player extends MovableGameObject {
 
   @Override
   public void move(double time) {
-   
-    if(!this.isOnGround()) {
-      this.getVel().increase(Vector2D.GRAVITY, time); 
-      
+
+    if (!this.isOnGround()) {
+      this.getVel().increase(Vector2D.GRAVITY, time);
+
       // can't walk while jumping
-      this.setWalking(false);
+       this.walkingLeft = false;
+       this.walkingRight = false;
+    } 
+    else {
+      this.walkingLeft = this.getVel().getX() < 0;
+      this.walkingRight = this.getVel().getX() > 0;
     }
-    else if(this.getVel().getX() != 0) {  // going left or right
-      this.setWalking(true);
-    }
-    else if(this.getVel().getX() == 0) {  // not moving left or right
-      this.setWalking(false);
-    }
-    
+
     super.move(time);
-    
+
   }
 
   /** Draws the player */
   @Override
   public void draw(GraphicsContext gc, double time) {
-    gc.drawImage(this.walkingAnimation.getFrame(time), this.getX(), this.getY());
+    if (this.walkingLeft) {
+      gc.drawImage(this.walkingAnimationL.getFrame(time), this.getX(), this.getY());
+    } 
+    else if (this.walkingRight) {
+      gc.drawImage(this.walkingAnimationR.getFrame(time), this.getX(), this.getY());
+    } 
+    else if (!this.walkingLeft && !this.walkingRight) {
+      gc.drawImage(this.walkingAnimationL.getRestingFrame(), this.getX(), this.getY());
+    }
   }
-  
-  public void setWalking(boolean walking) {
-    this.walkingAnimation.setRunning(walking);
-  }
-
-
 
 }

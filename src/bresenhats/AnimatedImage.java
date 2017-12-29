@@ -1,10 +1,5 @@
 package bresenhats;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
 public class AnimatedImage {
@@ -21,44 +16,19 @@ public class AnimatedImage {
   private int width;
   private int height;
   
-  /** If the animation is running */
-  private boolean running;
-  
   /** The frame displayed when the animation is not running */
   private Image restingFrame;
   
-  /**
-   * Creates the AnimatedImage from a sprite sheet
-   * 
-   * @param col the number of columns in the sprite sheet
-   * @param row the number of rows in the sprite sheet
-   * @param spriteSheetPath the path to the sprite sheet
-   * @throws IOException
-   */
-  public AnimatedImage(int col, int row, String spriteSheetPath, double duration) throws IOException {
+  public AnimatedImage(Image[] images, double duration) {
+    this.frames = images.clone();
 
-    this.frames = new Image[col * row];
-
-    BufferedImage spriteSheet = ImageIO.read(new File(spriteSheetPath));
-    
-    this.width = spriteSheet.getWidth() / col;
-    this.height = spriteSheet.getHeight() / row;
-
-    for (int y = 0; (y + 1) * this.height <= spriteSheet.getHeight(); y++) {
-      for (int x = 0; (x + 1) * this.width <= spriteSheet.getWidth(); x++) {
-        this.frames[col * y + x] = SwingFXUtils.toFXImage(spriteSheet.getSubimage(x * this.width, y*this.height, this.width, this.height), null);
-      }
-    }
-    
+    this.width = (int) frames[0].getWidth();
+    this.height = (int) frames[0].getHeight();
     this.duration = duration;
     this.restingFrame = this.frames[0];
   }
   
   public Image getFrame(double time) {
-    
-    if(!this.isRunning()) {
-      return this.restingFrame;
-    }
     
     this.prevTime += time;  // update time
     
@@ -79,12 +49,8 @@ public class AnimatedImage {
   public int getHeight() {
     return this.height;
   }
-  
-  public boolean isRunning() {
-    return this.running;
-  }
-  
-  public void setRunning(boolean running) {
-    this.running = running;
+    
+  public Image getRestingFrame() {
+    return this.restingFrame;
   }
 }

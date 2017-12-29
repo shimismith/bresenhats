@@ -16,10 +16,10 @@ public class Controller {
   public void handleKeyPress(KeyEvent e) {
     KeyCode code = e.getCode();
     if (code == KeyCode.LEFT) {
-      this.player.getVel().setX(-10);
+      this.player.getVel().setX(-5);  // TODO don't hardcode speed
     } 
     else if (code == KeyCode.RIGHT) {
-      this.player.getVel().setX(10);
+      this.player.getVel().setX(5);
     }
     else if (code == KeyCode.UP) {
       // only can jump when on ground
