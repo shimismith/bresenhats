@@ -2,7 +2,7 @@ package bresenhats;
 
 public abstract class RigidBody extends MovableGameObject{
     
-    private AABB boundingBox;
+    private AABB boundingBox = new AABB(this.getPosition().getXInt(), this.getPosition().getYInt(), this.getPosition().getXInt() + this.getWidth(), this.getPosition().getYInt() + this.getHeight());
     private boolean collided;
     
     //ArrayList<String> accelerations = new ArrayList<String>();
