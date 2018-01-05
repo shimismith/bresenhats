@@ -24,8 +24,8 @@ public class Level {
         this.collisionLayer = new Image(collisionFileName);
         this.graphicsLayer = new Image(graphicsFileName);
         
-        this.startPosition.setX(_startX);
-        this.startPosition.setY(_startY);
+        this.startPosition = new Vector2D(_startX, _startY);
+
     }
     
     public boolean isOverlapping(int x, int y){
