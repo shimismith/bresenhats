@@ -5,7 +5,7 @@ import java.util.Arrays;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public class Player extends MovableGameObject {
+public class Player extends RigidBody {
 
   private double health;
 
