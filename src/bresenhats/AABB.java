@@ -3,8 +3,8 @@ package bresenhats;
 public class AABB {
     
     //Defines a rectangle
-    Vector2D topLeft;
-    Vector2D bottomRight;
+    private Vector2D topLeft;
+    private Vector2D bottomRight;
     
     public AABB(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY){
         topLeft.setX(topLeftX);
