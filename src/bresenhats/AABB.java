@@ -7,10 +7,8 @@ public class AABB {
     private Vector2D bottomRight;
     
     public AABB(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY){
-        topLeft.setX(topLeftX);
-        topLeft.setY(topLeftY);
-        bottomRight.setX(bottomRightX);
-        bottomRight.setY(bottomRightY);
+        topLeft = new Vector2D(topLeftX, topLeftY);
+        bottomRight = new Vector2D(bottomRightX, bottomRightY);
     }
     
     //Returns true if bounding boxes have intersected
