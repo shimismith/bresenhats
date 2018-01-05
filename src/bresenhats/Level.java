@@ -4,42 +4,55 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Level {
-    
-    private Image collisionLayer;
-    private Image graphicsLayer;
-    
-    private Vector2D startPosition;
-    
-    /*
-    Here is how all level files will be specified:
-    <world-number><level-number>c.png for the collisionLayer and
-    <world-number><level-number>g.png for the graphics layer.
-    
-    As an example level 1 of world 1 would be 11c.png and 11g.png
-    */
-    public Level(int _world, int _level, int _startX, int _startY){
-        String collisionFileName = "" + _world + _level + "c.png";
-        String graphicsFileName = "" + _world + _level + "g.png";
-        
-        this.collisionLayer = new Image(collisionFileName);
-        this.graphicsLayer = new Image(graphicsFileName);
-        
-        this.startPosition = new Vector2D(_startX, _startY);
 
+  /** Image displaying map of static objects for collision purposes */
+  private Image collisionLayer;
+
+  /** Image of level that is displayed */
+  private Image graphicsLayer;
+
+  private Vector2D startPosition;
+
+  /**
+   * Precondition - level files must follow the following naming format
+   * <world-number><level-number>c.png for the collisionLayer and <world-number><level-number>g.png
+   * for the graphics layer.
+   * 
+   * As an example level 1 of world 1 would be 11c.png and 11g.png
+   * 
+   * @param world the world number
+   * @param level the level number
+   * @param startX
+   * @param startY
+   */
+  public Level(int world, int level, int startX, int startY) {
+    String collisionFileName = "" + world + level + "c.png";
+    String graphicsFileName = "" + world + level + "g.png";
+
+    this.collisionLayer = new Image(collisionFileName);
+    this.graphicsLayer = new Image(graphicsFileName);
+
+    this.startPosition = new Vector2D(startX, startY);
+
+  }
+  
+  
+  /**
+   * Checks if a point overlaps a point in the level
+   * @param x x coordinate of point being checked
+   * @param y y coordinate of point being checked
+   * @return true if point overlaps a point in the level. 
+   * Note: we also return true if the point is outside the level
+   */
+  public boolean isOverlapping(int x, int y) {
+    // make sure in bounds of image file
+    if (x > 0 && x < this.collisionLayer.getWidth()) {
+      if (y > 0 && y < this.collisionLayer.getHeight()) {
+        // return if there is a pixel in the file
+        return this.collisionLayer.getPixelReader().getColor(x, y).equals(Color.BLACK);
+      }
     }
     
-    public boolean isOverlapping(int x, int y){
-        if(x > 0 && x < this.collisionLayer.getWidth()){
-            if(y > 0 && y < this.collisionLayer.getHeight()){
-                return this.collisionLayer.getPixelReader().getColor(x, y).equals(Color.BLACK);
-            }
-        }
-        return true;
-    }
-    
-    
-    
-    
-    
-    
+    return true;
+  }
 }
