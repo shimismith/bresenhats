@@ -16,6 +16,16 @@ public abstract class MovableGameObject extends GameObject{
     return this.vel;
   }
   
+  public void setVelocity(Vector2D newVel){
+    vel.setX(newVel.getX());
+    vel.setY(newVel.getY());
+  }
+  
+  public void addVelocity(Vector2D newVel){
+    vel.setX(vel.getX() + newVel.getX());
+    vel.setY(vel.getY() + newVel.getY());
+  }
+  
   @Override
   public void move(double time) {
     this.getPosition().increase(this.getVel(), time);
