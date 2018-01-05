@@ -3,7 +3,7 @@ package bresenhats;
 public abstract class RigidBody extends MovableGameObject{
     
     private AABB boundingBox;
-    boolean collided;
+    private boolean collided;
     
     //ArrayList<String> accelerations = new ArrayList<String>();
     
@@ -20,16 +20,14 @@ public abstract class RigidBody extends MovableGameObject{
     //Check if rectangle around rigidBody has collided with the level
     public boolean hasCollidedWithLevel(Level level){
         
-        collided = false;
-        
-        for(int yPos = this.getPosition().getYInt(); yPos <= this.getPosition().getYInt() + this.getHeight() && !collided; yPos++){
-            for(int xPos = this.getPosition().getXInt(); xPos <= this.getPosition().getXInt() + this.getWidth() && !collided; xPos++){
+        //Loops iterate in a rectangle around object, checking for level intersections
+        for(int yPos = this.getPosition().getYInt(); yPos <= this.getPosition().getYInt() + this.getHeight(); yPos++){
+            for(int xPos = this.getPosition().getXInt(); xPos <= this.getPosition().getXInt() + this.getWidth(); xPos++){
 
                 //Check Collision
                 if(level.isOverlapping(xPos, yPos)){
                     return true;
                 }
-                //Check Collision
 
 
                 if(yPos > this.getPosition().getYInt() && yPos < this.getPosition().getYInt() + this.getHeight() && xPos == this.getPosition().getXInt())
