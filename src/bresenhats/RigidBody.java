@@ -36,19 +36,19 @@ public abstract class RigidBody extends MovableGameObject{
     
     //Check if the rigidbody is colliding with the level, and stop it
     public void handleLevelCollisions(Level lev){
-       if(this.willCollideWithLevelY(lev)) {
-         if(this.getVel().getY() > 0){
-           this.setOnGround(true);
-         }
-         this.resolveCollisionsY(lev);
-       }
-       else {
-         this.setOnGround(false);
-       }
-       
-       if(this.willCollideWithLevelX(lev)) {
-         this.resolveCollisionsX(lev);
-       }
+        if(this.willCollideWithLevelY(lev)){
+            if(this.getVel().getY() > 0){
+                this.setOnGround(true);
+            }
+            this.resolveCollisionsY(lev);
+        }
+        else{
+            this.setOnGround(false);
+        }
+        
+        if(this.willCollideWithLevelX(lev)){
+            this.resolveCollisionsX(lev);
+        }
     }
     
     

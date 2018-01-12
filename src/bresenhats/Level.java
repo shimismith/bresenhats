@@ -1,5 +1,6 @@
 package bresenhats;
 
+import java.io.File;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -34,9 +35,9 @@ public class Level {
     String graphicsFileName = "res/" + world + level + "g.png";
     String overFileName = "res/" + world + level + "o.png";
 
-    this.collisionLayer = new Image(collisionFileName);
-    this.graphicsLayer = new Image(graphicsFileName);
-    this.overLayer = new Image(overFileName);
+    this.collisionLayer = new Image(new File(collisionFileName).toURI().toString());
+    this.graphicsLayer = new Image(new File(graphicsFileName).toURI().toString());
+    this.overLayer = new Image(new File(overFileName).toURI().toString());
 
     this.startPosition = new Vector2D(startX, startY);
 
