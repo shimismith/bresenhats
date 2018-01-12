@@ -20,6 +20,10 @@ public class Main extends Application {
 
   /** Manages the key controls for the player */
   private static Controller controller;
+  
+  static Camera camera;
+  static Level lev;
+  static Player player;
 
   public static void main(String[] args) {
     try {
@@ -33,10 +37,10 @@ public class Main extends Application {
 
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    Player player = new Player(50, 9, 2, "res/spriteSheet.png");
+    player = new Player(50, 9, 2, "res/spriteSheet.png", 3, 22);
     controller = new Controller(player);
-    Camera camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
-    Level lev = new Level(1, 1, 0, 0);
+    camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
+    lev = new Level(1, 1, 0, 0);
     gameObjects.add(player);
   }
 
