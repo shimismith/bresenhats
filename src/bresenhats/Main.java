@@ -35,6 +35,8 @@ public class Main extends Application {
     gameObjects = new ArrayList<GameObject>();
     Player player = new Player(50, 9, 2, "res/spriteSheet.png");
     controller = new Controller(player);
+    Camera camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
+    Level lev = new Level(1, 1, 0, 0);
     gameObjects.add(player);
   }
 
@@ -76,7 +78,17 @@ public class Main extends Application {
   private static void drawWorld(GraphicsContext gc, double time) {
     // TODO only draw things that are on the screen
     for (GameObject gameObject : Main.gameObjects) {
+      camera.adjustToPlayerPosition(player);
+      
+      player.addInstantaniousAcceleration(Vector2D.GRAVITY);
+      
+      player.handleLevelCollisions(lev);
+      player.applyAllAccelerations();
+      lev.drawBackground(gc, camera);
+      
       gameObject.draw(gc, time);
+      
+      lev.drawForeground(gc, camera);
     }
   }
 
