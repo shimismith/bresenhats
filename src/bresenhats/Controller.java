@@ -16,15 +16,15 @@ public class Controller {
   public void handleKeyPress(KeyEvent e) {
     KeyCode code = e.getCode();
     if (code == KeyCode.LEFT) {
-      this.player.getVel().setX(-5);  // TODO don't hardcode speed
+      player.addInstantaniousAcceleration(new Vector2D(-player.getHorizontalVelocity(), 0));  // TODO don't hardcode speed
     } 
     else if (code == KeyCode.RIGHT) {
-      this.player.getVel().setX(5);
+      player.addInstantaniousAcceleration(new Vector2D(player.getHorizontalVelocity(), 0));
     }
     else if (code == KeyCode.UP) {
       // only can jump when on ground
       if (this.player.isOnGround()) {
-        this.player.getVel().setY(-20);
+        player.addInstantaniousAcceleration(new Vector2D(0, -player.getVerticalVelocity()));
         this.player.setOnGround(false);
       }
     }
