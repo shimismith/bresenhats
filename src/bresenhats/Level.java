@@ -1,5 +1,6 @@
 package bresenhats;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -10,15 +11,18 @@ public class Level {
 
   /** Image of level that is displayed */
   private Image graphicsLayer;
+  
+  /** Image for displaying graphics overtop all other objects */
+  private Image overLayer; 
 
   private Vector2D startPosition;
 
   /**
    * Precondition - level files must follow the following naming format
    * <world-number><level-number>c.png for the collisionLayer and <world-number><level-number>g.png
-   * for the graphics layer.
+   * for the graphics layer and <world-number><level-number>o.png for the over layer.
    * 
-   * As an example level 1 of world 1 would be 11c.png and 11g.png
+   * As an example level 1 of world 1 would be 11c.png and 11g.png and 11o.png
    * 
    * @param world the world number
    * @param level the level number
@@ -28,9 +32,11 @@ public class Level {
   public Level(int world, int level, int startX, int startY) {
     String collisionFileName = "" + world + level + "c.png";
     String graphicsFileName = "" + world + level + "g.png";
+    String overFileName = "" + world + level + "o.png";
 
     this.collisionLayer = new Image(collisionFileName);
     this.graphicsLayer = new Image(graphicsFileName);
+    this.overLayer = new Image(overFileName);
 
     this.startPosition = new Vector2D(startX, startY);
 
@@ -55,4 +61,23 @@ public class Level {
     
     return true;
   }
+  
+  public void drawBackground(GraphicsContext gc, Camera camera){
+    gc.setFill(Color.WHITE);
+    gc.fillRect(0, 0, 800, 400);
+    gc.drawImage(this.getGraphicsLayer(), camera.getPosition().getX(), camera.getPosition().getY(), this.getGraphicsLayer().getWidth() * 1, this.getGraphicsLayer().getHeight() * 1);
+  }
+  
+  public void drawForeground(GraphicsContext gc, Camera camera){
+    gc.drawImage(this.getOverLayer(), camera.getPosition().getX(), camera.getPosition().getY());
+  }
+  
+  public Image getGraphicsLayer(){
+    return graphicsLayer;
+  }
+  
+  public Image getOverLayer(){
+    return overLayer;
+  }
+  
 }
