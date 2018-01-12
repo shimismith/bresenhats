@@ -3,14 +3,26 @@ package bresenhats;
 public abstract class RigidBody extends MovableGameObject{
     
     private AABB boundingBox;
+    
+    private double dragForceStrength = 0.1;
+    
+    double horizontalVelocity;
+    double horizontalAirVelocity;
+    double verticalVelocity;
         
-    public RigidBody(int x, int y, int width, int height) {
+    public RigidBody(int x, int y, int width, int height, double hVelocity, double vVelocity) {
         super(x, y, width, height);
         
         boundingBox = new AABB(this.getPosition().getXInt(),
                                this.getPosition().getYInt(),
                                this.getPosition().getXInt() + this.getWidth(),
                                this.getPosition().getYInt() + this.getHeight());
+        
+        this.setOnGround(false);
+        horizontalVelocity = hVelocity;
+        verticalVelocity = vVelocity;
+        horizontalAirVelocity = hVelocity - 1;
+        
     }
     
     /**
