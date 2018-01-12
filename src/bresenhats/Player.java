@@ -82,7 +82,9 @@ public class Player extends RigidBody {
 
   @Override
   public void move(double time) {
-
+    //This code is not needed because it is handled with the RigidBody class
+    
+    /*
     if (!this.isOnGround()) {
       this.getVel().increase(Vector2D.GRAVITY, time);
 
@@ -94,7 +96,7 @@ public class Player extends RigidBody {
       this.walkingLeft = this.getVel().getX() < 0;
       this.walkingRight = this.getVel().getX() > 0;
     }
-
+    */
     super.move(time);
 
   }
