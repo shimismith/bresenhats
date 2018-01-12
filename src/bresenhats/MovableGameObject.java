@@ -30,6 +30,10 @@ public abstract class MovableGameObject extends GameObject{
   public void move(double time) {
     this.getPosition().increase(this.getVel(), time);
     
+    //This side-of-screen detection is already handled for RigidBodies, I would delete this
+    //chunk of code but I figure you should have the final say
+    
+    /*
     if(this.getX() < 0) {
       this.setX(0);
     }
@@ -42,6 +46,8 @@ public abstract class MovableGameObject extends GameObject{
       this.vel.setY(0);
       this.onGround = true;
     }
+    
+    */
   }
 
   public boolean isOnGround() {
