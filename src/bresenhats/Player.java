@@ -32,8 +32,8 @@ public class Player extends RigidBody {
    * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int y, int width, int height, int col, int row, String spriteSheet) throws IOException {
-    super(x, y, width, height);
+  public Player(int x, int y, int width, int height, int col, int row, String spriteSheet, double hVelocity, double vVelocity) throws IOException {
+     super(x, y, width, height, hVelocity, vVelocity);
     
 
     Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
@@ -55,8 +55,8 @@ public class Player extends RigidBody {
    * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int col, int row, String spriteSheet) throws IOException {
-    super(x, 0, 0, 0);
+  public Player(int x, int col, int row, String spriteSheet, double hVelocity, double vVelocity) throws IOException {
+    super(x, 0, 0, 0, hVelocity, vVelocity);
 
     Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
 
