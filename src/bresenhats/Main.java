@@ -21,9 +21,9 @@ public class Main extends Application {
   /** Manages the key controls for the player */
   private static Controller controller;
   
-  static Camera camera;
-  static Level lev;
-  static Player player;
+  private static Camera camera;
+  private static Level lev;
+  private static Player player;
 
   public static void main(String[] args) {
     try {
