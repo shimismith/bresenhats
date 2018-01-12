@@ -30,9 +30,9 @@ public class Level {
    * @param startY
    */
   public Level(int world, int level, int startX, int startY) {
-    String collisionFileName = "" + world + level + "c.png";
-    String graphicsFileName = "" + world + level + "g.png";
-    String overFileName = "" + world + level + "o.png";
+    String collisionFileName = "res/" + world + level + "c.png";
+    String graphicsFileName = "res/" + world + level + "g.png";
+    String overFileName = "res/" + world + level + "o.png";
 
     this.collisionLayer = new Image(collisionFileName);
     this.graphicsLayer = new Image(graphicsFileName);
