@@ -4,7 +4,7 @@ public class Vector2D {
   private double x;
   private double y;
   
-  public static final Vector2D GRAVITY = new Vector2D(0, 0.98);
+  public static final Vector2D GRAVITY = new Vector2D(0, 1);
   
   public Vector2D(double x, double y) {
     this.x = x;
