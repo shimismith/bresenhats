@@ -105,13 +105,13 @@ public class Player extends RigidBody {
   @Override
   public void draw(GraphicsContext gc, double time) {
     if (this.walkingLeft) {
-      gc.drawImage(this.walkingAnimationL.getFrame(time), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationL.getFrame(time), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (this.walkingRight) {
-      gc.drawImage(this.walkingAnimationR.getFrame(time), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationR.getFrame(time), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (!this.walkingLeft && !this.walkingRight) {
-      gc.drawImage(this.walkingAnimationL.getRestingFrame(), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationL.getRestingFrame(), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
     }
   }
 
