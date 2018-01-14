@@ -103,15 +103,15 @@ public class Player extends RigidBody {
 
   /** Draws the player */
   @Override
-  public void draw(GraphicsContext gc, double time) {
+  public void draw(GraphicsContext gc, double time, Camera camera) {
     if (this.walkingLeft) {
-      gc.drawImage(this.walkingAnimationL.getFrame(time), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
+      gc.drawImage(this.walkingAnimationL.getFrame(time), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (this.walkingRight) {
-      gc.drawImage(this.walkingAnimationR.getFrame(time), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
+      gc.drawImage(this.walkingAnimationR.getFrame(time), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (!this.walkingLeft && !this.walkingRight) {
-      gc.drawImage(this.walkingAnimationL.getRestingFrame(), player.getPosition().getX() + camera.getPosition().getX(), player.getPosition().getY() + camera.getPosition().getY());
+      gc.drawImage(this.walkingAnimationL.getRestingFrame(), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     }
   }
 
