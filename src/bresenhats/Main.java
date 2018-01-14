@@ -105,7 +105,7 @@ public class Main extends Application {
       player.applyAllAccelerations();
       lev.drawBackground(gc, camera);
       
-      gameObject.draw(gc, time);
+      gameObject.draw(gc, time, camera);
       
       lev.drawForeground(gc, camera);
     }
