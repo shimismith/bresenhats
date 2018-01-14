@@ -52,7 +52,7 @@ public abstract class GameObject {
     return height;
   }
   
-  public abstract void draw(GraphicsContext gc, double time);
+  public abstract void draw(GraphicsContext gc, double time, Camera camera);
   
   public abstract void move(double time);
 }
