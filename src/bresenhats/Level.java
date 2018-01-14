@@ -65,7 +65,7 @@ public class Level {
   
   public void drawBackground(GraphicsContext gc, Camera camera){
     gc.setFill(Color.WHITE);
-    gc.fillRect(0, 0, 800, 400);
+    gc.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
     gc.drawImage(this.getGraphicsLayer(), camera.getPosition().getX(), camera.getPosition().getY(), this.getGraphicsLayer().getWidth() * 1, this.getGraphicsLayer().getHeight() * 1);
   }
   
