@@ -5,6 +5,8 @@ import javafx.scene.input.KeyEvent;
 
 public class Controller {
 
+  public boolean goRight = false, goLeft = false, jump = false;
+  
   /** The player this controller controls */
   private Player player;
 
@@ -16,17 +18,13 @@ public class Controller {
   public void handleKeyPress(KeyEvent e) {
     KeyCode code = e.getCode();
     if (code == KeyCode.LEFT) {
-      player.addInstantaniousAcceleration(new Vector2D(-player.getHorizontalVelocity(), 0));  // TODO don't hardcode speed
+      goLeft = true;
     } 
-    else if (code == KeyCode.RIGHT) {
-      player.addInstantaniousAcceleration(new Vector2D(player.getHorizontalVelocity(), 0));
+    if (code == KeyCode.RIGHT) {
+      goRight = true;
     }
-    else if (code == KeyCode.UP) {
-      // only can jump when on ground
-      if (this.player.isOnGround()) {
-        player.addInstantaniousAcceleration(new Vector2D(0, -player.getVerticalVelocity()));
-        this.player.setOnGround(false);
-      }
+    if (code == KeyCode.UP) {
+      jump = true;
     }
   }
 
@@ -36,15 +34,13 @@ public class Controller {
     KeyCode code = e.getCode();
 
     if (code == KeyCode.LEFT) {      
-      // if going left - could be going right but left button was being held then released
-      if (this.player.getVel().getX() < 0) {
-        this.player.getVel().setX(0);
-      }
+      goLeft = false;
     } 
-    else if (code == KeyCode.RIGHT) {      
-      if (this.player.getVel().getX() > 0) {
-        this.player.getVel().setX(0);
-      }
+    if (code == KeyCode.RIGHT) {      
+      goRight = false;
+    }
+    if (code == KeyCode.UP) {
+      jump = false;
     }
   }
 }
