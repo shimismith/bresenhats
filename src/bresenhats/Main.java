@@ -84,7 +84,22 @@ public class Main extends Application {
     for (GameObject gameObject : Main.gameObjects) {
       camera.adjustToPlayerPosition(player);
       
+      if(controller.goLeft){
+        player.addInstantaniousAcceleration(new Vector2D(-player.getHorizontalVelocity(), 0));
+      }
+      
+      if(controller.goRight){
+          player.addInstantaniousAcceleration(new Vector2D(player.getHorizontalVelocity(), 0));
+      }
+      
       player.addInstantaniousAcceleration(Vector2D.GRAVITY);
+      
+      if(controller.jump){
+          if(player.isOnGround()){
+            player.addInstantaniousAcceleration(new Vector2D(0, -player.getVerticalVelocity()));
+          }
+          player.setOnGround(false);
+      }
       
       player.handleLevelCollisions(lev);
       player.applyAllAccelerations();
