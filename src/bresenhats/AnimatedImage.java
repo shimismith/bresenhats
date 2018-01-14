@@ -38,7 +38,6 @@ public class AnimatedImage {
       currFrame = currFrame == this.frames.length - 1 ? 0 : currFrame + 1;
       this.prevTime = 0;
     }
-
     return this.frames[this.currFrame];
   }
   

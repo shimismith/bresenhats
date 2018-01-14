@@ -16,7 +16,7 @@ public class Level {
   /** Image for displaying graphics overtop all other objects */
   private Image overLayer; 
 
-  private Vector2D startPosition;  // TODO fix unused variable
+  private Vector2D startPosition;
 
   /**
    * Precondition - level files must follow the following naming format

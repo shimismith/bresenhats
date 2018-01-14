@@ -7,6 +7,11 @@ public class Camera {
     private double horizontalJuice = 0.1;
     private double verticalJuice = 0.3;
     
+    /** Horizontal offset relative to player */
+    private static final int H_OFFSET = 300;
+    /** Vertical offset relative to player */
+    private static final int V_OFFSET = 100;
+    
     public Camera(int x, int y){
         pos = new Vector2D(x, y);
     }
@@ -21,7 +26,7 @@ public class Camera {
     
     //Adjusts the camera to follow the player, and make player the centre of the screen
     public void adjustToPlayerPosition(RigidBody body){
-        this.setCameraPosition(new Vector2D(-body.getPosition().getX() + 300, -body.getPosition().getY() + 100));
+        this.setCameraPosition(new Vector2D(-body.getPosition().getX() + H_OFFSET, -body.getPosition().getY() + V_OFFSET));
     }
     
     public Vector2D getPosition(){

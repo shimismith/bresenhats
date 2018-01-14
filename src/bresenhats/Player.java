@@ -15,8 +15,8 @@ public class Player extends RigidBody {
   /** Walking animation for going right */
   private AnimatedImage walkingAnimationR;
   
-  private boolean walkingLeft = false;
-  private boolean walkingRight = false;
+  public boolean walkingLeft = false;
+  public boolean walkingRight = false;
 
   private static final double WALKING_DURATION = 0.07;
 
@@ -79,7 +79,7 @@ public class Player extends RigidBody {
   public void setHealth(double health) {
     this.health = health;
   }
-
+  
   /** Draws the player */
   @Override
   public void draw(GraphicsContext gc, double time, Camera camera) {
