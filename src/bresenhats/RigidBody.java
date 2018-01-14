@@ -6,9 +6,9 @@ public abstract class RigidBody extends MovableGameObject{
     
     private double dragForceStrength = 0.1;
     
-    double horizontalVelocity;
-    double horizontalAirVelocity;
-    double verticalVelocity;
+    private double horizontalVelocity;
+    private double horizontalAirVelocity;
+    private double verticalVelocity;
         
     public RigidBody(int x, int y, int width, int height, double hVelocity, double vVelocity) {
         super(x, y, width, height);
@@ -19,9 +19,9 @@ public abstract class RigidBody extends MovableGameObject{
                                this.getPosition().getYInt() + this.getHeight());
         
         this.setOnGround(false);
-        horizontalVelocity = hVelocity;
-        verticalVelocity = vVelocity;
-        horizontalAirVelocity = hVelocity - 1;
+        this.horizontalVelocity = hVelocity;
+        this.verticalVelocity = vVelocity;
+        this.horizontalAirVelocity = hVelocity - 1;
         
     }
     
@@ -114,6 +114,12 @@ public abstract class RigidBody extends MovableGameObject{
     
     public void applyAllAccelerations(){
         this.addInstantaniousAcceleration(new Vector2D(-this.getVel().getX() * dragForceStrength, 0));
+    }
+    
+    @Override
+    public void move(double time) {
+      this.applyAllAccelerations();
+      super.move(time);
     }
     
     public double getHorizontalVelocity(){

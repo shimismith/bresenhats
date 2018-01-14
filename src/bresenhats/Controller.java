@@ -5,26 +5,22 @@ import javafx.scene.input.KeyEvent;
 
 public class Controller {
 
-  public boolean goRight = false, goLeft = false, jump = false;
-  
-  /** The player this controller controls */
-  private Player player;
-
-  public Controller(Player player) {
-    this.player = player;
-  }
+  // flags for what the player has to do
+  private boolean goRight = false;
+  private boolean goLeft = false;
+  private boolean jump = false;
 
   /** Handles key inputs */
   public void handleKeyPress(KeyEvent e) {
     KeyCode code = e.getCode();
     if (code == KeyCode.LEFT) {
-      goLeft = true;
+      this.goLeft = true;
     } 
     if (code == KeyCode.RIGHT) {
-      goRight = true;
+      this.goRight = true;
     }
     if (code == KeyCode.UP) {
-      jump = true;
+      this.jump = true;
     }
   }
 
@@ -34,13 +30,25 @@ public class Controller {
     KeyCode code = e.getCode();
 
     if (code == KeyCode.LEFT) {      
-      goLeft = false;
+      this.goLeft = false;
     } 
     if (code == KeyCode.RIGHT) {      
-      goRight = false;
+      this.goRight = false;
     }
     if (code == KeyCode.UP) {
-      jump = false;
+      this.jump = false;
     }
+  }
+  
+  public boolean goLeft() {
+    return this.goLeft;
+  }
+  
+  public boolean goRight() {
+    return this.goRight;
+  }
+  
+  public boolean jump() {
+    return this.jump;
   }
 }

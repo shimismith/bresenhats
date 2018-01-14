@@ -80,27 +80,6 @@ public class Player extends RigidBody {
     this.health = health;
   }
 
-  @Override
-  public void move(double time) {
-    //This code is not needed because it is handled with the RigidBody class
-    
-    /*
-    if (!this.isOnGround()) {
-      this.getVel().increase(Vector2D.GRAVITY, time);
-
-      // can't walk while jumping
-       this.walkingLeft = false;
-       this.walkingRight = false;
-    } 
-    else {
-      this.walkingLeft = this.getVel().getX() < 0;
-      this.walkingRight = this.getVel().getX() > 0;
-    }
-    */
-    super.move(time);
-
-  }
-
   /** Draws the player */
   @Override
   public void draw(GraphicsContext gc, double time, Camera camera) {

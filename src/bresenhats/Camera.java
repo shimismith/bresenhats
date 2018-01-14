@@ -1,8 +1,6 @@
 package bresenhats;
 
 public class Camera {
-    
-    private double levelScaleFactor = 1;
             
     private Vector2D pos;
     

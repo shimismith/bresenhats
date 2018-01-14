@@ -16,7 +16,7 @@ public class Level {
   /** Image for displaying graphics overtop all other objects */
   private Image overLayer; 
 
-  private Vector2D startPosition;
+  private Vector2D startPosition;  // TODO fix unused variable
 
   /**
    * Precondition - level files must follow the following naming format
@@ -66,7 +66,11 @@ public class Level {
   public void drawBackground(GraphicsContext gc, Camera camera){
     gc.setFill(Color.WHITE);
     gc.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
-    gc.drawImage(this.getGraphicsLayer(), camera.getPosition().getX(), camera.getPosition().getY(), this.getGraphicsLayer().getWidth() * 1, this.getGraphicsLayer().getHeight() * 1);
+    gc.drawImage(this.getGraphicsLayer(), 
+                 camera.getPosition().getX(),
+                 camera.getPosition().getY(),
+                 this.getGraphicsLayer().getWidth(),
+                 this.getGraphicsLayer().getHeight());
   }
   
   public void drawForeground(GraphicsContext gc, Camera camera){
