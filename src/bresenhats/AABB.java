@@ -7,7 +7,7 @@ public class AABB {
     private Vector2D topLeft;
     private Vector2D bottomRight;
     
-    public AABB(int topLeftX, int topLeftY, int bottomRightX, int bottomRightY){
+    public AABB(double topLeftX, double topLeftY, double bottomRightX, double bottomRightY){
         this.topLeft = new Vector2D(topLeftX, topLeftY);
         this.bottomRight = new Vector2D(bottomRightX, bottomRightY);
     }
