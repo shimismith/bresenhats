@@ -51,16 +51,39 @@ public class Level {
    * @return true if point overlaps a point in the level. 
    * Note: we also return true if the point is outside the level
    */
-  public boolean isOverlapping(int x, int y) {
+  public boolean isOverlapping(double x, double y) {
     // make sure in bounds of image file
     if (x > 0 && x < this.collisionLayer.getWidth()) {
       if (y > 0 && y < this.collisionLayer.getHeight()) {
         // return if there is a pixel in the file
-        return this.collisionLayer.getPixelReader().getColor(x, y).equals(Color.BLACK);
+        return this.collisionLayer.getPixelReader().getColor((int) Math.round(x),(int) Math.round(y)).equals(Color.BLACK);
       }
     }
     
     return true;
+  }
+  
+  /**
+   * Checks if a point overlaps a death point in the level
+   * @param x x coordinate of point being checked
+   * @param y y coordinate of point being checked
+   * @return true if point overlaps a death point in the level. 
+   * Note: we also return true if the point is outside the level
+   */
+  public boolean isOverlappingRed(double x, double y) {
+    // make sure in bounds of image file
+    if (x > 0 && x < this.collisionLayer.getWidth()) {
+      if (y > 0 && y < this.collisionLayer.getHeight()) {
+        // return if there is a pixel in the file
+        return this.collisionLayer.getPixelReader().getColor((int) Math.round(x),(int) Math.round(y)).equals(Color.RED);
+      }
+    }
+    
+    return false;
+  }
+  
+  public Vector2D getStartingPosition(){
+      return startPosition;
   }
   
   public void drawBackground(GraphicsContext gc, Camera camera){
