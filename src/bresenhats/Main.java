@@ -15,6 +15,9 @@ public class Main extends Application {
   /** Duration in seconds of each frame */
   public static final int WIDTH = 1080;
   public static final int HEIGHT = 720;
+  
+  public static final int PLAYER_WIDTH = 80;
+  public static final int PLAYER_HEIGHT = 100;
 
   private static ArrayList<GameObject> gameObjects;
 
@@ -37,10 +40,10 @@ public class Main extends Application {
 
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    player = new Player(50, 9, 2, "res/spriteSheet.png", 3, 22);
+    lev = new Level(1, 1, 0, 0);
+    player = new Player(lev.getStartingPosition().getXInt(), lev.getStartingPosition().getYInt(), PLAYER_WIDTH, PLAYER_HEIGHT, 9, 2, "res/spriteSheet.png", 3.5, 22);
     controller = new Controller();
     camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
-    lev = new Level(1, 1, 0, 0);
     gameObjects.add(player);
   }
 
@@ -92,7 +95,9 @@ public class Main extends Application {
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         
         // I just add 1 to the time instead of having stupidly large velocities
-        player.move(t + 1);  // move the player
+        // ^ Changing the time step to 0.9 actually helps the collision system, 
+        // if this is no good i'll try to figure out a better way
+        player.move(t + 0.9);  // move the player
         
         drawWorld(gc, t);  // t here is used strictly for animation
       }
