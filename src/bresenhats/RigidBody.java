@@ -64,11 +64,11 @@ public abstract class RigidBody extends MovableGameObject{
             for(double xPos = this.getPosition().getX(); xPos <= this.getPosition().getX() + this.getWidth(); xPos++){
 
                 //Check Collision
-                if(level.isOverlapping(xPos + this.getVel().getX(), yPos)){
+                if(level.isOverlapping(xPos + this.getVel().getX(), yPos, Level.level)){
                     return true;
                 }
                 
-                if(level.isOverlappingRed(xPos + this.getVel().getX(), yPos)){
+                if(level.isOverlapping(xPos + this.getVel().getX(), yPos, Level.deadly)){
                     this.respawnBody(level);
                 }
 
@@ -90,11 +90,11 @@ public abstract class RigidBody extends MovableGameObject{
             for(double xPos = this.getPosition().getX(); xPos <= this.getPosition().getX() + this.getWidth(); xPos++){
                 
                 //Check Collision
-                if(level.isOverlapping(xPos, yPos + this.getVel().getY())){
+                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), Level.level)){
                     return true;
                 }
                 
-                if(level.isOverlappingRed(xPos, yPos + this.getVel().getY())){
+                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), level.deadly)){
                     this.respawnBody(level);
                 }
                 
