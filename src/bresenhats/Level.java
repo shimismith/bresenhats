@@ -1,5 +1,7 @@
 package bresenhats;
 
+import java.io.File;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
@@ -10,15 +12,23 @@ public class Level {
 
   /** Image of level that is displayed */
   private Image graphicsLayer;
+  
+  /** Image for displaying graphics overtop all other objects */
+  private Image overLayer; 
 
   private Vector2D startPosition;
+  
+  /** Color for regular level objects */
+  public static final Color level = Color.BLACK;
+  /** Color for deadly level objects */
+  public static final Color deadly = Color.RED;
 
   /**
    * Precondition - level files must follow the following naming format
    * <world-number><level-number>c.png for the collisionLayer and <world-number><level-number>g.png
-   * for the graphics layer.
+   * for the graphics layer and <world-number><level-number>o.png for the over layer.
    * 
-   * As an example level 1 of world 1 would be 11c.png and 11g.png
+   * As an example level 1 of world 1 would be 11c.png and 11g.png and 11o.png
    * 
    * @param world the world number
    * @param level the level number
@@ -26,11 +36,13 @@ public class Level {
    * @param startY
    */
   public Level(int world, int level, int startX, int startY) {
-    String collisionFileName = "" + world + level + "c.png";
-    String graphicsFileName = "" + world + level + "g.png";
+    String collisionFileName = "res/" + world + level + "c.png";
+    String graphicsFileName = "res/" + world + level + "g.png";
+    String overFileName = "res/" + world + level + "o.png";
 
-    this.collisionLayer = new Image(collisionFileName);
-    this.graphicsLayer = new Image(graphicsFileName);
+    this.collisionLayer = new Image(new File(collisionFileName).toURI().toString());
+    this.graphicsLayer = new Image(new File(graphicsFileName).toURI().toString());
+    this.overLayer = new Image(new File(overFileName).toURI().toString());
 
     this.startPosition = new Vector2D(startX, startY);
 
@@ -44,15 +56,42 @@ public class Level {
    * @return true if point overlaps a point in the level. 
    * Note: we also return true if the point is outside the level
    */
-  public boolean isOverlapping(int x, int y) {
+  public boolean isOverlapping(double x, double y, Color color) {
     // make sure in bounds of image file
     if (x > 0 && x < this.collisionLayer.getWidth()) {
       if (y > 0 && y < this.collisionLayer.getHeight()) {
         // return if there is a pixel in the file
-        return this.collisionLayer.getPixelReader().getColor(x, y).equals(Color.BLACK);
+        return this.collisionLayer.getPixelReader().getColor((int) Math.round(x),(int) Math.round(y)).equals(color);
       }
     }
     
     return true;
   }
+  
+  public Vector2D getStartingPosition(){
+      return startPosition;
+  }
+  
+  public void drawBackground(GraphicsContext gc, Camera camera){
+    gc.setFill(Color.WHITE);
+    gc.fillRect(0, 0, Main.WIDTH, Main.HEIGHT);
+    gc.drawImage(this.getGraphicsLayer(), 
+                 camera.getPosition().getX(),
+                 camera.getPosition().getY(),
+                 this.getGraphicsLayer().getWidth(),
+                 this.getGraphicsLayer().getHeight());
+  }
+  
+  public void drawForeground(GraphicsContext gc, Camera camera){
+    gc.drawImage(this.getOverLayer(), camera.getPosition().getX(), camera.getPosition().getY());
+  }
+  
+  public Image getGraphicsLayer(){
+    return graphicsLayer;
+  }
+  
+  public Image getOverLayer(){
+    return overLayer;
+  }
+  
 }

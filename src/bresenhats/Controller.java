@@ -5,28 +5,22 @@ import javafx.scene.input.KeyEvent;
 
 public class Controller {
 
-  /** The player this controller controls */
-  private Player player;
-
-  public Controller(Player player) {
-    this.player = player;
-  }
+  // flags for what the player has to do
+  private boolean goRight = false;
+  private boolean goLeft = false;
+  private boolean jump = false;
 
   /** Handles key inputs */
   public void handleKeyPress(KeyEvent e) {
     KeyCode code = e.getCode();
     if (code == KeyCode.LEFT) {
-      this.player.getVel().setX(-5);  // TODO don't hardcode speed
+      this.goLeft = true;
     } 
-    else if (code == KeyCode.RIGHT) {
-      this.player.getVel().setX(5);
+    if (code == KeyCode.RIGHT) {
+      this.goRight = true;
     }
-    else if (code == KeyCode.UP) {
-      // only can jump when on ground
-      if (this.player.isOnGround()) {
-        this.player.getVel().setY(-20);
-        this.player.setOnGround(false);
-      }
+    if (code == KeyCode.UP) {
+      this.jump = true;
     }
   }
 
@@ -36,15 +30,25 @@ public class Controller {
     KeyCode code = e.getCode();
 
     if (code == KeyCode.LEFT) {      
-      // if going left - could be going right but left button was being held then released
-      if (this.player.getVel().getX() < 0) {
-        this.player.getVel().setX(0);
-      }
+      this.goLeft = false;
     } 
-    else if (code == KeyCode.RIGHT) {      
-      if (this.player.getVel().getX() > 0) {
-        this.player.getVel().setX(0);
-      }
+    if (code == KeyCode.RIGHT) {      
+      this.goRight = false;
     }
+    if (code == KeyCode.UP) {
+      this.jump = false;
+    }
+  }
+  
+  public boolean goLeft() {
+    return this.goLeft;
+  }
+  
+  public boolean goRight() {
+    return this.goRight;
+  }
+  
+  public boolean jump() {
+    return this.jump;
   }
 }

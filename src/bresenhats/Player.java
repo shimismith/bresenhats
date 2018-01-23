@@ -15,8 +15,8 @@ public class Player extends RigidBody {
   /** Walking animation for going right */
   private AnimatedImage walkingAnimationR;
   
-  private boolean walkingLeft = false;
-  private boolean walkingRight = false;
+  public boolean walkingLeft = false;
+  public boolean walkingRight = false;
 
   private static final double WALKING_DURATION = 0.07;
 
@@ -32,9 +32,8 @@ public class Player extends RigidBody {
    * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int y, int width, int height, int col, int row, String spriteSheet) throws IOException {
-    super(x, y, width, height);
-    
+  public Player(int x, int y, int width, int height, int col, int row, String spriteSheet, double hVelocity, double vVelocity) throws IOException {
+     super(x, y, width, height, hVelocity, vVelocity);
 
     Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
 
@@ -55,8 +54,8 @@ public class Player extends RigidBody {
    * @param spriteSheet the path to the sprite sheet for the walking animation
    * @throws IOException
    */
-  public Player(int x, int col, int row, String spriteSheet) throws IOException {
-    super(x, 0, 0, 0);
+  public Player(int x, int col, int row, String spriteSheet, double hVelocity, double vVelocity) throws IOException {
+    super(x, 0, 0, 0, hVelocity, vVelocity);
 
     Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
 
@@ -67,6 +66,7 @@ public class Player extends RigidBody {
     
     this.setWidth(this.walkingAnimationL.getWidth());
     this.setHeight(this.walkingAnimationL.getHeight());
+    
     this.setY(Main.HEIGHT - this.getHeight());
 
     this.health = 100;
@@ -79,37 +79,18 @@ public class Player extends RigidBody {
   public void setHealth(double health) {
     this.health = health;
   }
-
-  @Override
-  public void move(double time) {
-
-    if (!this.isOnGround()) {
-      this.getVel().increase(Vector2D.GRAVITY, time);
-
-      // can't walk while jumping
-       this.walkingLeft = false;
-       this.walkingRight = false;
-    } 
-    else {
-      this.walkingLeft = this.getVel().getX() < 0;
-      this.walkingRight = this.getVel().getX() > 0;
-    }
-
-    super.move(time);
-
-  }
-
+  
   /** Draws the player */
   @Override
-  public void draw(GraphicsContext gc, double time) {
+  public void draw(GraphicsContext gc, double time, Camera camera) {
     if (this.walkingLeft) {
-      gc.drawImage(this.walkingAnimationL.getFrame(time), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationL.getFrame(time), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (this.walkingRight) {
-      gc.drawImage(this.walkingAnimationR.getFrame(time), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationR.getFrame(time), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     } 
     else if (!this.walkingLeft && !this.walkingRight) {
-      gc.drawImage(this.walkingAnimationL.getRestingFrame(), this.getX(), this.getY());
+      gc.drawImage(this.walkingAnimationL.getRestingFrame(), this.getPosition().getX() + camera.getPosition().getX(), this.getPosition().getY() + camera.getPosition().getY());
     }
   }
 

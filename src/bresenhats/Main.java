@@ -15,11 +15,18 @@ public class Main extends Application {
   /** Duration in seconds of each frame */
   public static final int WIDTH = 1080;
   public static final int HEIGHT = 720;
+  
+  public static final int PLAYER_WIDTH = 80;
+  public static final int PLAYER_HEIGHT = 100;
 
   private static ArrayList<GameObject> gameObjects;
 
   /** Manages the key controls for the player */
   private static Controller controller;
+  
+  private static Camera camera;
+  private static Level lev;
+  private static Player player;
 
   public static void main(String[] args) {
     try {
@@ -33,8 +40,13 @@ public class Main extends Application {
 
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    Player player = new Player(50, 9, 2, "res/spriteSheet.png");
-    controller = new Controller(player);
+    
+    lev = new Level(1, 1, 0, 0);
+        
+    player = new Player(50, 9, 2, "res/spriteSheet.png", 3, 22);
+    controller = new Controller();
+    camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
+
     gameObjects.add(player);
   }
 
@@ -59,11 +71,38 @@ public class Main extends Application {
       public void handle(long currentNanoTime) {
         double t = (currentNanoTime - this.getPrevNanoTime()) / 1000000000.0;
         this.setPrevNanoTime(currentNanoTime);
+        
+        
+        // respond to controls
+        
+        if(controller.goLeft()){
+          player.addInstantaniousAcceleration(new Vector2D(-player.getHorizontalVelocity(), 0));
+        }
+        
+        if(controller.goRight()){
+            player.addInstantaniousAcceleration(new Vector2D(player.getHorizontalVelocity(), 0));
+        }
+        
+        player.addInstantaniousAcceleration(Vector2D.GRAVITY);
+        
+        if(controller.jump()){
+            if(player.isOnGround()){
+              player.addInstantaniousAcceleration(new Vector2D(0, -player.getVerticalVelocity()));
+            }
+            player.setOnGround(false);
+        }
+        
+        player.handleLevelCollisions(lev);
 
         // background image clears canvas
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
+        
         // I just add 1 to the time instead of having stupidly large velocities
-        gameObjects.get(0).move(t + 1);
+        // ^ Changing the time step to 0.9 actually helps the collision system, 
+        // if this is no good i'll try to figure out a better way
+
+        player.move(t + 0.9);  // move the player
+        
         drawWorld(gc, t);  // t here is used strictly for animation
       }
     }.start();
@@ -74,11 +113,17 @@ public class Main extends Application {
 
   /** Draws all the objects in the game */
   private static void drawWorld(GraphicsContext gc, double time) {
+    
+    camera.adjustToPlayerPosition(player);
+    
+    lev.drawBackground(gc, camera);
+    
     // TODO only draw things that are on the screen
-    for (GameObject gameObject : Main.gameObjects) {
-      gameObject.draw(gc, time);
+    for (GameObject gameObject : Main.gameObjects) {  
+      gameObject.draw(gc, time, camera);
     }
+    
+    lev.drawForeground(gc, camera);
   }
-
 
 }
