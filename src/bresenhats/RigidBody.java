@@ -13,10 +13,10 @@ public abstract class RigidBody extends MovableGameObject{
     public RigidBody(int x, int y, int width, int height, double hVelocity, double vVelocity) {
         super(x, y, width, height);
         
-        boundingBox = new AABB(this.getPosition().getXInt(),
-                               this.getPosition().getYInt(),
-                               this.getPosition().getXInt() + this.getWidth(),
-                               this.getPosition().getYInt() + this.getHeight());
+        boundingBox = new AABB(this.getPosition().getX(),
+                               this.getPosition().getY(),
+                               this.getPosition().getX() + this.getWidth(),
+                               this.getPosition().getY() + this.getHeight());
         
         this.setOnGround(false);
         this.horizontalVelocity = hVelocity;
@@ -60,17 +60,21 @@ public abstract class RigidBody extends MovableGameObject{
     public boolean willCollideWithLevelX(Level level){
         
         //Loops iterate in a rectangle around object, checking for level intersections
-        for(int yPos = this.getPosition().getYInt(); yPos <= this.getPosition().getYInt() + this.getHeight(); yPos++){
-            for(int xPos = this.getPosition().getXInt(); xPos <= this.getPosition().getXInt() + this.getWidth(); xPos++){
+        for(double yPos = this.getPosition().getY(); yPos <= this.getPosition().getY() + this.getHeight(); yPos++){
+            for(double xPos = this.getPosition().getX(); xPos <= this.getPosition().getX() + this.getWidth(); xPos++){
 
                 //Check Collision
-                if(level.isOverlapping(xPos + this.getVel().getXInt(), yPos)){
+                if(level.isOverlapping(xPos + this.getVel().getX(), yPos, Level.level)){
                     return true;
+                }
+                
+                if(level.isOverlapping(xPos + this.getVel().getX(), yPos, Level.deadly)){
+                    this.respawnBody(level);
                 }
 
 
-                if(yPos > this.getPosition().getYInt() && yPos < this.getPosition().getYInt() + this.getHeight() && xPos == this.getPosition().getXInt()) {
-                    xPos = this.getPosition().getXInt() + this.getWidth() - 1;
+                if(yPos > this.getPosition().getY() && yPos < this.getPosition().getY() + this.getHeight() && xPos == this.getPosition().getX()) {
+                    xPos = this.getPosition().getX() + this.getWidth() - 1;
                 }
             }
         }
@@ -82,20 +86,39 @@ public abstract class RigidBody extends MovableGameObject{
     public boolean willCollideWithLevelY(Level level){
         
         //Loop around rigidbody
-        for(int yPos = this.getPosition().getYInt(); yPos <= this.getPosition().getYInt() + this.getHeight(); yPos++){
-            for(int xPos = this.getPosition().getXInt(); xPos <= this.getPosition().getXInt() + this.getWidth(); xPos++){
+        for(double yPos = this.getPosition().getY(); yPos <= this.getPosition().getY() + this.getHeight(); yPos++){
+            for(double xPos = this.getPosition().getX(); xPos <= this.getPosition().getX() + this.getWidth(); xPos++){
                 
                 //Check Collision
-                if(level.isOverlapping(xPos, yPos + this.getVel().getYInt())){
+                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), Level.level)){
                     return true;
                 }
                 
-                if(yPos > this.getPosition().getYInt() && yPos < this.getPosition().getYInt() + this.getHeight() && xPos == this.getPosition().getXInt()){
-                    xPos = this.getPosition().getXInt() + this.getWidth() - 1;
+                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), Level.deadly)){
+                    this.respawnBody(level);
+                }
+                
+                if(yPos > this.getPosition().getY() && yPos < this.getPosition().getY() + this.getHeight() && xPos == this.getPosition().getX()){
+                    xPos = this.getPosition().getX() + this.getWidth() - 1;
                 }
             }
         }
         return false;
+    }
+    
+    private void respawnBody(Level level){
+        this.setVelocity(new Vector2D(0, 0));
+        this.setX(level.getStartingPosition().getX());
+        this.setY(level.getStartingPosition().getY());
+    }
+    
+    public void applyAllAccelerations(){
+        this.addInstantaniousAcceleration(new Vector2D(-this.getVel().getX() * dragForceStrength, 0));
+        
+        if(Math.abs(this.getVel().getX()) < 0.01){
+            this.setVelocity(new Vector2D(0, this.getVel().getY()));
+        }
+        
     }
     
     //Stop the rigidbody from moving left or right
@@ -110,10 +133,6 @@ public abstract class RigidBody extends MovableGameObject{
     
     public void addInstantaniousAcceleration(Vector2D acceleration){
        this.addVelocity(acceleration);
-    }
-    
-    public void applyAllAccelerations(){
-        this.addInstantaniousAcceleration(new Vector2D(-this.getVel().getX() * dragForceStrength, 0));
     }
     
     @Override

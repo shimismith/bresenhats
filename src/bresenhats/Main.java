@@ -37,10 +37,13 @@ public class Main extends Application {
 
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
+    
+    lev = new Level(1, 1, 0, 0);
+        
     player = new Player(50, 9, 2, "res/spriteSheet.png", 3, 22);
     controller = new Controller();
     camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
-    lev = new Level(1, 1, 0, 0);
+    
     gameObjects.add(player);
   }
 
@@ -92,7 +95,7 @@ public class Main extends Application {
         gc.clearRect(0, 0, Main.WIDTH, Main.HEIGHT);
         
         // I just add 1 to the time instead of having stupidly large velocities
-        player.move(t + 1);  // move the player
+        player.move(t + 0.9);  // move the player
         
         drawWorld(gc, t);  // t here is used strictly for animation
       }

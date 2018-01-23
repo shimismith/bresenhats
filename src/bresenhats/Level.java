@@ -17,6 +17,12 @@ public class Level {
   private Image overLayer; 
 
   private Vector2D startPosition;
+  
+  
+  /** Color for regular level objects */
+  public static final Color level = Color.BLACK;
+  /** Color for deadly level objects */
+  public static final Color deadly = Color.RED;
 
   /**
    * Precondition - level files must follow the following naming format
@@ -51,12 +57,12 @@ public class Level {
    * @return true if point overlaps a point in the level. 
    * Note: we also return true if the point is outside the level
    */
-  public boolean isOverlapping(int x, int y) {
+  public boolean isOverlapping(double x, double y, Color color) {
     // make sure in bounds of image file
     if (x > 0 && x < this.collisionLayer.getWidth()) {
       if (y > 0 && y < this.collisionLayer.getHeight()) {
         // return if there is a pixel in the file
-        return this.collisionLayer.getPixelReader().getColor(x, y).equals(Color.BLACK);
+        return this.collisionLayer.getPixelReader().getColor((int) Math.round(x),(int) Math.round(y)).equals(color);
       }
     }
     
@@ -83,6 +89,10 @@ public class Level {
   
   public Image getOverLayer(){
     return overLayer;
+  }
+  
+  public Vector2D getStartingPosition() {
+    return this.startPosition;
   }
   
 }
