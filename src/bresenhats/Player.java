@@ -66,6 +66,7 @@ public class Player extends RigidBody {
     
     this.setWidth(this.walkingAnimationL.getWidth());
     this.setHeight(this.walkingAnimationL.getHeight());
+    
     this.setY(Main.HEIGHT - this.getHeight());
 
     this.health = 100;

@@ -93,8 +93,8 @@ public abstract class RigidBody extends MovableGameObject{
                 if(level.isOverlapping(xPos, yPos + this.getVel().getY(), Level.level)){
                     return true;
                 }
-                
-                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), level.deadly)){
+               
+                if(level.isOverlapping(xPos, yPos + this.getVel().getY(), Level.deadly)){
                     this.respawnBody(level);
                 }
                 
