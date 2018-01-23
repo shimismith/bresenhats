@@ -36,7 +36,7 @@ public abstract class RigidBody extends MovableGameObject{
     
     //Check if the rigidbody is colliding with the level, and stop it
     public void handleLevelCollisions(Level lev){
-        if(this.willCollideWithLevelY(lev)){
+      if(this.willCollideWithLevelY(lev)){
             if(this.getVel().getY() > 0){
                 this.setOnGround(true);
             }
@@ -115,6 +115,7 @@ public abstract class RigidBody extends MovableGameObject{
     public void applyAllAccelerations(){
         this.addInstantaniousAcceleration(new Vector2D(-this.getVel().getX() * dragForceStrength, 0));
         
+        // Since the velocity will never reach 0 we set it to zero when it is small enough
         if(Math.abs(this.getVel().getX()) < 0.01){
             this.setVelocity(new Vector2D(0, this.getVel().getY()));
         }

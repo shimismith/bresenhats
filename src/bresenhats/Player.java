@@ -34,7 +34,6 @@ public class Player extends RigidBody {
    */
   public Player(int x, int y, int width, int height, int col, int row, String spriteSheet, double hVelocity, double vVelocity) throws IOException {
      super(x, y, width, height, hVelocity, vVelocity);
-    
 
     Image[] animation = SpriteSheetReader.readSpriteSheet(col, row, spriteSheet);
 

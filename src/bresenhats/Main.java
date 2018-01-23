@@ -40,8 +40,9 @@ public class Main extends Application {
 
   private static void initGame() throws IOException {
     gameObjects = new ArrayList<GameObject>();
-    lev = new Level(1, 1, 0, 0);
-    player = new Player(lev.getStartingPosition().getXInt(), lev.getStartingPosition().getYInt(), PLAYER_WIDTH, PLAYER_HEIGHT, 9, 2, "res/spriteSheet.png", 3.5, 22);
+    lev = new Level(1, 1, 0, Main.HEIGHT - 300);
+//    player = new Player(lev.getStartingPosition().getXInt(), lev.getStartingPosition().getYInt(), PLAYER_WIDTH, PLAYER_HEIGHT, 9, 2, "res/spriteSheet.png", 3.5, 22);
+    player = new Player(lev.getStartingPosition().getXInt(), 9, 2, "res/spriteSheet.png", 3.5, 22);
     controller = new Controller();
     camera = new Camera(-Main.WIDTH/2, -Main.HEIGHT/2);
     gameObjects.add(player);

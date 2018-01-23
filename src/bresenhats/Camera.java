@@ -26,7 +26,7 @@ public class Camera {
     
     //Adjusts the camera to follow the player, and make player the centre of the screen
     public void adjustToPlayerPosition(RigidBody body){
-        this.setCameraPosition(new Vector2D(-body.getPosition().getX() + Main.WIDTH/2, -body.getPosition().getY() + Main.HEIGHT/3));
+        this.setCameraPosition(new Vector2D(-body.getPosition().getX() + Main.WIDTH/2, -body.getPosition().getY() + Main.HEIGHT/2));
     }
     
     public Vector2D getPosition(){
